@@ -1,0 +1,5 @@
+1.uptime开机启动时间
+2.# 锁屏
+	gnome-screensaver-command -l
+	# 解除锁屏
+	gnome-screensaver-command -d

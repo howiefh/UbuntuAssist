@@ -1,0 +1,28 @@
+1./home/fenghao/.config/autostart  下的desktop文件可以开机启动
+2.zenity --title=autoshutdown \
+	--text=自动关机 \
+	--forms \
+	--add-list=选择动作 \
+	--list-values="关机|休眠|挂起|重启|取消" \
+	--column-values="动作" \
+	--show-header \
+	--add-entry=时间 \
+	--add-entry=分钟 \
+	--add-entry=执行程序
+窗口中有list和entry
+3.echo $text | cut -d '|' -f 1
+'|'分隔符     -f 1位置
+4.at TIME 
+at 14:00
+at now + 5 minutes
+
+echo "${work_dir}tmp.sh" | $at_time_min > /dev/null 2>&1
+不显示标准输出
+5.关机sudo shutdown -h 0
+	休眠sudo pm-hibernate
+	挂起sudo pm-suspend-hybrid
+	重启sudo shutdown -r now
+6.export DISPLAY=:0
+notify-send -u critical 'autoshutdown' '之前动作已取消。'
+exit
+

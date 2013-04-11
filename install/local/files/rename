@@ -1,0 +1,45 @@
+#!/bin/bash
+text=$(zenity --forms --title=重命名 --width=400 --height=60 --text=输入命名规则,*替代原文件名,#序号 --add-entry="" --add-entry="更改为：")
+
+# echo "*" 和 echo * 执行结果不同 后者可以列出目录下的文件
+
+if [ "$text" == "|" ] || [ "$text" == "" ] ; then
+	exit 0
+fi
+
+index=1
+no_rename=""
+if [ "$(echo  $text | grep "^|")" ] ; then
+	text=${text#*|}
+	while [ "$1" ]; do
+		# *替换为原文件名
+		new=$(echo "$text" | sed "s/\*/$1/g")
+		# #替换为序号
+		new=$(echo "$new" | sed "s/#/$index/g")
+		if [ -e "$new" ]; then
+			no_rename+=$1", "
+		else
+			mv "$1" "$new"		
+		fi
+		index=$[$index+1]
+		shift
+	done
+else
+	first=${text%|*}
+	second=${text#*|}
+	while [ "$1" ]; do
+		new=$(echo $1 | sed "s/$first/$second/g")
+		if [ -e "$new" ]; then
+			no_rename+=$1", "
+		else
+			mv "$1" "$new"		
+		fi
+		shift
+	done
+fi
+
+
+if ! [ "$no_rename"  == "" ] ; then
+	zenity --info --text="$no_rename未重命名"
+fi
+# vim:filetype=sh

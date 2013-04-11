@@ -1,0 +1,66 @@
+#!/bin/bash
+# 需要安装zenity 
+logfile=./screenlock.log
+# 切换到工作目录
+work_dir=${0%$(basename $0)}
+cd $work_dir
+# 是否停止锁屏功能, 如果isstop是1则,之后也不会锁屏
+isstop=`./ini.sh ./config.ini screenlock isstop`
+if [ $isstop == 1 ] ; then
+	exit
+fi
+# 读取配置
+idle=`./ini.sh ./config.ini screenlock idle`
+worktime=`./ini.sh ./config.ini screenlock worktime`
+total=`./ini.sh ./config.ini screenlock total`
+
+# idle为分钟
+# idle=$(($idle*1))
+idle=$(($idle*60))
+# echo $idle $total $worktime
+
+# 将本文件加入at任务
+echo "$0"| at now + $worktime minutes > /dev/null 2>&1 
+
+# 判断系统启动时间,如果开机时间小于30分，则退出，不执行锁屏，避免一开机就锁屏
+# 14:12:25 up 2 min, 2 users, load average: 0.46, 0.83, 0.72
+# 22:05:02 up  3:21,  2 users,  load average: 1.16, 0.89, 0.74
+os_uptime=`uptime`
+os_time=`echo $os_uptime | sed 's/^.*up \{0,1\}//;s/[a-z]\{0,3\},.*$//'`
+echo $os_uptime > $logfile
+echo $os_time >> $logfile
+if [ $(echo $os_time | grep ':') ] ; then
+	hour=`echo $os_time | cut -d ':' -f 1`
+	min=`echo $os_time | cut -d ':' -f 2`
+	os_time=$(($hour*60+$min))
+fi
+echo $os_time >> $logfile
+if [ $os_time -lt 30 ] ; then
+	echo exit1 >> $logfile
+	exit
+fi
+# 锁屏提前十秒提示
+count=0
+(
+	while [ $count -lt $total ] ; do
+		echo $((count*100/total))
+		sleep 1
+		((count+=1))
+	done
+) | zenity --progress --title=screenlock --text="10秒后锁屏" --auto-close --display=:0
+ret=$?
+# 如果按下了取消
+if [ $ret == 1 ] ; then
+	echo exit2 >> $logfile
+	exit
+else
+	echo $os_time >> $logfile
+	# 锁屏
+	gnome-screensaver-command -l
+	sleep $idle
+	# 解除锁屏
+	gnome-screensaver-command -d
+fi
+# echo "$0"| at now + $worktime minutes > /dev/null 2>&1 
+
+# vim:filetype=sh

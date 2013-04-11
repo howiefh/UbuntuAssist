@@ -1,0 +1,6 @@
+Actions=New;
+
+[Desktop Action New]
+Name=新建窗口
+Exec=/usr/bin/vlc %U
+OnlyShowIn=Unity;

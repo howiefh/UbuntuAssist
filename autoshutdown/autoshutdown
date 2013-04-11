@@ -1,0 +1,86 @@
+#!/bin/bash
+# 需要安装zenity notify-send
+work_dir=${0%$(basename $0)}
+bs_path=${work_dir}tmp.sh
+if ! [ -e "$bs_path" ] ; then
+	touch "$bs_path"
+	chmod +x "$bs_path"
+fi
+# 检测是否存在tmp.sh
+# 在填入的时间，或在填入的分钟后，或在填入的程序执行完后执行选择的动作（关机、休眠、挂起、重启）
+text=`zenity --title=autoshutdown \
+	--text=自动关机 \
+	--forms \
+	--add-list=选择动作 \
+	--list-values="关机|休眠|挂起|重启|取消" \
+	--column-values="动作" \
+	--show-header \
+	--add-entry=时间 \
+	--add-entry=分钟 \
+	--add-entry=执行程序`
+# 截取四个字段的内容
+action=`echo $text | cut -d '|' -f 1`
+shutdown_time=`echo $text | cut -d '|' -f 2`
+shutdown_min=`echo $text | cut -d '|' -f 3`
+exe=`echo $text | cut -d '|' -f 4`
+# 生成at命令
+if [ $shutdown_time ] ; then
+	at_time_min="at $shutdown_time" 
+elif [ $shutdown_min ] ; then
+	at_time_min="at now + $shutdown_min minutes"
+fi
+# 根据选择的不同动作，生成相应的命令
+case $action in
+	关机)
+		cmd="sudo shutdown -h 0"
+		;;
+	休眠)
+		cmd="sudo pm-hibernate"
+		;;
+	挂起)
+		cmd="sudo pm-suspend-hybrid"
+		;;
+	重启)
+		cmd="sudo shutdown -r now"
+		;;
+	取消)
+		# cmd="sudo shutdown -c"
+		echo '#!/bin/bash' > $bs_path
+		echo 'export DISPLAY=:0' >> $bs_path
+		echo 'notify-send -u critical 'autoshutdown' '之前动作已取消。'' >> $bs_path
+		# echo 'zenity --info --title=autoshutdown --text=之前动作已取消 --display=:0' >> $bs_path
+		echo 'exit' >> $bs_path
+		exit
+		;;
+esac
+# 提前10秒提示
+echo '#!/bin/bash' > $bs_path
+# echo 'zenity --question --title="autoshutdown" --text="5秒后将执行" --display=:0' >> $bs_path
+echo 'count=0' >> $bs_path
+echo 'total=10' >> $bs_path
+echo '(' >> $bs_path
+echo '	while [ $count -lt $total ] ; do' >> $bs_path
+echo '		echo $((count*100/total))' >> $bs_path
+echo '		sleep 1' >> $bs_path
+echo '		((count+=1))' >> $bs_path
+echo '	done' >> $bs_path
+echo ") | zenity --progress --title="autoshutdown" --text=\"10秒后执行 $cmd\" --auto-close --display=:0" >> $bs_path
+echo 'ret=$?' >> $bs_path
+echo '# 如果按下了取消' >> $bs_path
+echo 'if [ $ret == 1 ] ; then' >> $bs_path
+echo '	exit' >> $bs_path
+echo 'else' >> $bs_path
+echo "	$cmd" >> $bs_path
+echo "fi" >> $bs_path
+echo "# $exe ; ${work_dir}tmp.sh" >> $bs_path
+# 如果有需要执行的程序,执行完该程序后执行指定动作
+if [ "$exe" ] ; then
+	$exe ; ${work_dir}tmp.sh
+	exit
+fi
+
+echo ""# ${work_dir}tmp.sh" | $at_time_min > /dev/null 2>&1" >> $bs_path
+# 在规定时间执行脚本tmp.sh
+echo "${work_dir}tmp.sh" | $at_time_min > /dev/null 2>&1
+
+# vim:filetype=sh

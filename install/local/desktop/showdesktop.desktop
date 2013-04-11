@@ -1,0 +1,31 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=显示桌面
+Comment=显示桌面 
+Exec=xdotool key ctrl+super+d
+Icon=/usr/share/app-install/icons/gnome-fs-desktop.png
+Terminal=false
+StartupNotify=true
+Type=Application
+Actions=Convert;LiveWallpaper;Rename;AutoShutdown;
+
+[Desktop Action Convert]
+Name=链接转换
+Exec=/home/fenghao/.apps/OSAssist/convert/convert
+OnlyShowIn=Unity;
+
+[Desktop Action LiveWallpaper]
+Name=动态壁纸生成器
+Exec=/home/fenghao/.apps/OSAssist/LiveWallpaper/LiveWallpaper
+OnlyShowIn=Unity;
+
+[Desktop Action Rename]
+Name=文件重命名工具
+Exec=/home/fenghao/.apps/OSAssist/Rename/rename
+OnlyShowIn=Unity;
+
+[Desktop Action AutoShutdown]
+Name=定时关机
+Exec=gksudo --message "请输入密码，获取管理员权限" /home/fenghao/.apps/OSAssist/autoshutdown/autoshutdown_terminal
+OnlyShowIn=Unity;

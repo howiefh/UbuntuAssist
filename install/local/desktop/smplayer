@@ -1,0 +1,27 @@
+Actions=Play;Next;Previous;Mute;Fullscreen;
+
+[Desktop Action Play]
+Name=播放/暂停
+Exec=smplayer -send-action play_or_pause
+OnlyShowIn=Unity;
+
+[Desktop Action Next]
+Name=下一个
+Exec=smplayer -send-action next_radio
+OnlyShowIn=Unity;
+
+[Desktop Action Previous]
+Name=上一个
+Exec=smplayer -send-action previous_radio
+OnlyShowIn=Unity;
+
+[Desktop Action Mute]
+Name=静音
+Exec=smplayer -send-action mute
+OnlyShowIn=Unity;
+
+[Desktop Action Fullscreen]
+Name=全屏
+Exec=smplayer -send-action fullscreen
+OnlyShowIn=Unity;
+

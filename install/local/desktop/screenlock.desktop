@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/fenghao/.apps/OSAssist/screenlock/screenlock
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[zh_CN]=自动锁屏
+Name=自动锁屏
+Comment[zh_CN]=隔一小时锁屏5分钟
+Comment=隔一小时锁屏5分钟

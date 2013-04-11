@@ -1,0 +1,107 @@
+#!/bin/bash
+# 需要安装zenity xsel
+script_path=${0%/*}"/"
+# echo $script_path
+# 编码错误会导致下一句中的带中文的命令无法解析提示错误，需要utf-8编码
+url_text=$(zenity --title=链接转换 --width=600 --height=30 --window-icon=$script_path"big_smile.ico" --ok-label=转换 --text=输入链接 --entry)
+# url_text=$(zenity --entry)
+# 截取开头的字串
+first_substr=${url_text%://*}
+# 截取结尾的字串
+end_substr=${url_text#*://}
+if ! [ $first_substr ] ; then
+	exit 0
+fi
+
+# ----- 快车
+if [ $first_substr == "Flashget" ] ; then
+	end_substr=${end_substr%&*}
+	# result=`./base64_c d $end_substr`  在quicklist中需要绝对路径
+	# result=`$script_path"base64_c" d $end_substr`
+	result=`echo -n $end_substr|base64 -d`
+	result=${result#\[FLASHGET\]}
+	result=${result%\[FLASHGET\]}
+	# 在终端运行时才可以复制到剪切板，直接双击运行不行 ????
+	echo -n $result | xsel -b
+	zenity --text=$result --info
+	# echo $result
+# ----- 迅雷
+elif [ $first_substr == "thunder" ] ; then
+	# result=`$script_path"base64_c" d $end_substr`
+	result=`echo -n $end_substr|base64 -d`
+	result=${result#AA}
+	result=${result%ZZ}
+	echo -n $result | xsel -b
+	zenity --text=$result --info
+	# echo $result
+# ----- 旋风
+elif [ $first_substr == "qqdl" ] ; then	
+	# result=`$script_path"base64_c" d $end_substr`
+	result=`echo -n $end_substr|base64 -d`
+	echo -n $result | xsel -b
+	zenity --text=$result --info
+	# echo $result
+elif [ $first_substr == "http" ] ; then	
+	if ! [ $1 ] ; then
+		url_text="AA"$url_text"ZZ"
+	else
+		if [ $1 == "t" ] ; then
+			url_text="AA"$url_text"ZZ"
+		elif [ $1 == "f" ] ; then
+			url_text="[FLASHGET]"$url_text"[FLASHGET]"
+		elif [ $1 == "q" ] ; then
+			url_text=$url_text
+		else
+			zenity --text=参数有误 --info
+			exit 0
+		fi
+	fi
+	# result=`$script_path"base64_c" e $url_text`
+	result=`echo -n $url_text|base64`
+	if ! [ $1 ] ; then
+		result="thunder://"$result
+	else
+		if [ $1 == "t" ] ; then
+			result="thunder://"$result
+		elif [ $1 == "f" ] ; then
+			result="Flashget://"$result"&fh"
+		elif [ $1 == "q" ] ; then
+			result="qqdl://"$result
+		fi
+	fi
+	echo -n $result | xsel -b --display ":0"
+	zenity --text=$result --info
+	# xdotool key ctrl+a&&xdotool key ctrl+c
+	# echo $result
+else
+	zenity --text=输入错误,请输如http、thunder、Flashget、qqdl链接 --info
+fi
+
+##
+# 今天要做一个下载站的下载管理程序，需要用到普通下载url与迅雷快车旋风下载地址转换，网上找到一些有用的资料。
+# 例如华军winrar 3.71的下载地址是
+# http://p2s.newhua.com/down/wrar371sc.exe
+# 1、普通地址转换为迅雷地址
+# 在原地址前面加”AA”，后面加”ZZ”(注：不包括引号)，地址变为
+# AAhttp://p2s.newhua.com/down/wrar371sc.exeZZ
+# 此地址base64_c编码为
+# QUFodHRwOi8vcDJzLm5ld2h1YS5jb20vZG93bi93cmFyMzcxc2MuZXhlWlo=
+# 迅雷专链即在上地址前加thunder://，即
+# thunder://QUFodHRwOi8vcDJzLm5ld2h1YS5jb20vZG93bi93cmFyMzcxc2MuZXhlWlo=
+# http://p2s.newhua.com/down/wrar371sc.exe
+# 2、普通地址转换为快车地址
+# 在原地址前后都加上”[FLASHGET]“(注：不包括引号)，地址变为
+# [FLASHGET]http://p2s.newhua.com/down/wrar371sc.exe[FLASHGET]
+# 此地址base64_c编码为
+# W0ZMQVNIR0VUXWh0dHA6Ly9wMnMubmV3aHVhLmNvbS9kb3duL3dyYXIzNzFzYy5leGVbRkxBU0hHRVRd
+# 快车专链即在上地址前加flashget://，注意后面还要加上”&符号”，符号怎么得出我也不清楚，我自己在最后后面加的是我个人信息，至今未有人报告转换错误，即
+# Flashget://W0ZMQVNIR0VUXWh0dHA6Ly9wMnMubmV3aHVhLmNvbS9kb3duL3dyYXIzNzFzYy5leGVbRkxBU0hHRVRd&yinbing1986
+# 3、普通地址转换为旋风地址
+# 旋风相对就简单多了，将原地址直接base64_c编码为
+# aHR0cDovL3Aycy5uZXdodWEuY29tL2Rvd24vd3JhcjM3MXNjLmV4ZQ==
+# 旋风专链即在上地址前加qqdl://，即
+# qqdl://aHR0cDovL3Aycy5uZXdodWEuY29tL2Rvd24vd3JhcjM3MXNjLmV4ZQ==
+# 原理就这样
+##
+
+

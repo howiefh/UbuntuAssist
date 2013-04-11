@@ -1,0 +1,3 @@
+#!/bin/bash
+
+gksu -m "输入你的密码执行管理权限的任务" nautilus $NAUTILUS_SCRIPT_SELECTED_URIS

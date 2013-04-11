@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Eclipse Platform
+Comment=Eclipse IDE 
+Exec=/home/fenghao/.apps/eclipse/eclipse
+Icon=/home/fenghao/.apps/eclipse/icon.xpm
+Terminal=false
+StartupNotify=true
+Type=Application
