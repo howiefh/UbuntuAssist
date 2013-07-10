@@ -8,7 +8,7 @@ Icon=/usr/share/app-install/icons/gnome-fs-desktop.png
 Terminal=false
 StartupNotify=true
 Type=Application
-Actions=Convert;LiveWallpaper;Rename;AutoShutdown;
+Actions=Convert;LiveWallpaper;Rename;AutoShutdown;MountMi;UMountMi;
 
 [Desktop Action Convert]
 Name=链接转换
@@ -29,3 +29,14 @@ OnlyShowIn=Unity;
 Name=定时关机
 Exec=gksudo --message "请输入密码，获取管理员权限" /home/fenghao/.apps/OSAssist/autoshutdown/autoshutdown_terminal
 OnlyShowIn=Unity;
+
+[Desktop Action MountMi]
+Name=挂载小米
+Exec=/home/fenghao/.apps/OSAssist/mountxiaomi
+OnlyShowIn=Unity;
+
+[Desktop Action UMountMi]
+Name=卸载小米
+Exec=gksudo --message "卸载小米" "umount /media/mtp"
+OnlyShowIn=Unity;
+

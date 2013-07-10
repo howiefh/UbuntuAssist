@@ -22,16 +22,19 @@ do
 	fi
 done
 
-app="firefox"
-echo "Edit $app.desktop"
-if [ -e $applications$app".desktop" ] ; then
-	cp $applications$app".desktop" ./back/$app".desktop.back"
+apps_2=(firefox)
+for app in ${apps_2[@]}
+do
+	echo "Edit $app.desktop"
+	if [ -e $applications$app".desktop" ] ; then
+		cp $applications$app".desktop" ./back/$app".desktop.back"
+	else
+		echo "Not exist "$app".decktop"
+	fi
 	sudo cp ./desktop/$app".desktop" $applications$app".desktop"
-else
-	echo "Not exist "$app".decktop"
-fi
+done
 
-apps_1=(XnView eclipse showdesktop)
+apps_1=(XnView eclipse showdesktop foxit)
 user_applications=$HOME"/.local/share/applications"
 for app in ${apps_1[@]}
 do

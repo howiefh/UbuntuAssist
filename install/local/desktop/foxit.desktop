@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=FoxitReader
+GenericName=PDF Reader
+TryExec=/home/fenghao/.apps/FoxitReader/FoxitReader
+Exec=/home/fenghao/.apps/FoxitReader/FoxitReader
+Terminal=false
+Type=Application
+Icon=/home/fenghao/.apps/FoxitReader/foxit.png
+Categories=GNOME;GTK;Office;Viewer;Graphics;VectorGraphics;
+StartupNotify=true
+MimeType=application/pdf;
