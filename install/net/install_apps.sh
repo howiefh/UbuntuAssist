@@ -1,5 +1,5 @@
 #!/bin/bash
-apps=(nautilus-open-terminal vim-gnome ibus-googlepinyin chmsee unrar p7zip p7zip-rar p7zip-full vlc virtualbox conky gdebi smplayer osdlyrics xdotool gstreamer0.10-plugins-ugly zenity xsel flashplugin-installer exuberant-ctags cheese g++ calibre mencoder ffmpeg goldendict chromium-browser guake dia)
+apps=(nautilus-open-terminal vim-gnome ibus-googlepinyin chmsee unrar p7zip p7zip-rar p7zip-full vlc virtualbox conky gdebi smplayer osdlyrics xdotool gstreamer0.10-plugins-ugly zenity xsel flashplugin-installer exuberant-ctags cheese g++ calibre mencoder ffmpeg goldendict chromium-browser guake dia audacious)
 for app in ${apps[@]}
 do
 	echo "Install $app"
@@ -10,14 +10,14 @@ do
 	fi
 done
 
-ppas=(ppa:drwright/stable ppa:ricotz/docky ppa:stebbins/handbrake-releases ppa:marlin-devs/marlin-daily ppa:synapse-core/ppa ppa:tiheum/equinox ppa:upubuntu-com/gtk3 ppa:noobslab/themes)
+ppas=(ppa:drwright/stable ppa:ricotz/docky ppa:stebbins/handbrake-releases ppa:marlin-devs/marlin-daily ppa:synapse-core/ppa ppa:tiheum/equinox ppa:upubuntu-com/gtk3 ppa:noobslab/themes ppa:diodon-team/daily)
 for ppa in ${ppas[@]}
 do
 	echo "add ppa $ppa"
 	add-apt-repository $ppa
 done
 apt-get update
-apps1=(drwright plank handbrake-gtk marlin synapse faenza-icon-theme malys-rough-theme elementary-theme)
+apps1=(drwright plank handbrake-gtk marlin synapse faenza-icon-theme malys-rough-theme elementary-theme diodon)
 for app1 in ${apps1[@]}
 do
 	echo "Install $app1"
