@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Sublime Text Editor
+Comment=Sublime Text Editor
+Exec="/home/fenghao/.apps/SublimeText2/sublime_text" %F
+MimeType=text/plain;
+Terminal=false
+Type=Application
+Icon=/home/fenghao/.apps/SublimeText2/Icon/48x48/sublime_text.png
+Categories=Application;GNOME;GTK;Utility;TextEditor;Development;

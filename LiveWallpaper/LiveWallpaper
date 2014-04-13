@@ -1,5 +1,0 @@
-#/bin/bash
-# 在quiklist中调用目录是家目录
-work_dir=${0%$(basename $0)}
-cd $work_dir
-java -jar $0.jar

@@ -1,7 +1,7 @@
 #!/bin/bash
 cd ./local
 applications="/usr/share/applications/"
-apps=(gvim vlc smplayer)
+apps=(gvim vlc smplayer sublimetext)
 #echo $apps
 #echo ${apps[@]}
 for app in ${apps[@]}
