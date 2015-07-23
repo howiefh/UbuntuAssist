@@ -1,5 +1,5 @@
 #WinC分区
-#/dev/sda1    /media/WinC    ntfs    defaults,locale=zh_CN.UTF-8    0    0
+/dev/sda1    /media/WinC    ntfs    defaults,locale=zh_CN.UTF-8    0    0
 #WinD分区
 /dev/sda5    /media/WinD    ntfs    defaults,locale=zh_CN.UTF-8    0    0
 #WinE分区

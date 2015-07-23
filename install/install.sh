@@ -21,16 +21,16 @@ echo "edit profile"
 # nautilus-scripts
 echo "edit nautilus-scripts"
 # 清空历史记录
-cp "./local/files/clear history" "/home/fenghao/.gnome2/nautilus-scripts/clear history"
+cp "./local/files/clear history" "/home/fenghao/.local/share/nautilus/scripts/clear history"
 # 视频转换
-cp "./local/files/avi & mp4 converter" "/home/fenghao/.gnome2/nautilus-scripts/avi & mp4 converter"
+cp "./local/files/avi & mp4 converter" "/home/fenghao/.local/share/nautilus/scripts/avi & mp4 converter"
 # 重命名
-cp ./local/files/rename /home/fenghao/.gnome2/nautilus-scripts/rename
+cp ./local/files/rename /home/fenghao/.local/share/nautilus/scripts/rename
 # 以管理员身份浏览
-cp "./local/files/browse as root" "/home/fenghao/.gnome2/nautilus-scripts/browse as root"
+cp "./local/files/browse as root" "/home/fenghao/.local/share/nautilus/scripts/browse as root"
 # 以管理员身份用默认软件打开
-cp "./local/files/open with default soft as root" "/home/fenghao/.gnome2/nautilus-scripts/open with default soft as root"
-chmod +x /home/fenghao/.gnome2/nautilus-scripts/*
+cp "./local/files/open with default soft as root" "/home/fenghao/.local/share/nautilus/scripts/open with default soft as root"
+chmod +x /home/fenghao/.local/share/nautilus/scripts/*
 
 # Ubuntu 12.04休眠
 echo "enable hibernate"

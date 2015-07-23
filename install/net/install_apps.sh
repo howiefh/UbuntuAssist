@@ -1,27 +1,38 @@
 #!/bin/bash
-apps=(nautilus-open-terminal vim-gnome ibus-googlepinyin chmsee unrar p7zip p7zip-rar p7zip-full vlc virtualbox conky gdebi smplayer osdlyrics xdotool gstreamer0.10-plugins-ugly zenity xsel flashplugin-installer exuberant-ctags cheese g++ calibre mencoder ffmpeg goldendict chromium-browser guake dia audacious)
-for app in ${apps[@]}
+baseapps=(nautilus-open-terminal unrar p7zip p7zip-rar p7zip-full vlc virtualbox conky smplayer vim-gnome exuberant-ctags goldendict chromium-browser guake gimp wine workrave ubuntu-restricted-extras pepperflashplugin-nonfree tmux zsh autojump)
+for app in ${baseapps[@]}
 do
 	echo "Install $app"
-	if [ $1 == "y" ]; then
+	if [ "$1" == "y" ]; then
 		apt-get -y install $app
 	else
 		apt-get install $app
 	fi
 done
 
-ppas=(ppa:drwright/stable ppa:ricotz/docky ppa:stebbins/handbrake-releases ppa:marlin-devs/marlin-daily ppa:synapse-core/ppa ppa:tiheum/equinox ppa:upubuntu-com/gtk3 ppa:noobslab/themes ppa:diodon-team/daily)
+codeapps=(g++ git-core git-gui git-doc apache2 mysql-server mysql-client php5 php5-gd php5-mysql phpmyadmin vsftpd)
+for app in ${codeapps[@]}
+do
+	echo "Install $app"
+	if [ "$1" == "y" ]; then
+		apt-get -y install $app
+	else
+		apt-get install $app
+	fi
+done
+
+ppas=(ppa:synapse-core/ppa)
 for ppa in ${ppas[@]}
 do
 	echo "add ppa $ppa"
 	add-apt-repository $ppa
 done
 apt-get update
-apps1=(drwright plank handbrake-gtk marlin synapse faenza-icon-theme malys-rough-theme elementary-theme diodon)
-for app1 in ${apps1[@]}
+ppa_apps1=()
+for app1 in ${ppa_apps1[@]}
 do
 	echo "Install $app1"
-	if [ $1 == "y" ]; then
+	if [ "$1" == "y" ]; then
 		apt-get -y install $app1
 	else
 		apt-get install $app1
@@ -41,3 +52,4 @@ done
 # apt-get install xdotool
 # apt-get install gstreamer0.10-plugins-ugly
 
+sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"

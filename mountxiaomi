@@ -1,3 +1,0 @@
-#!/bin/bash
-# gksudo --message "挂载小米" "mtpfs -o allow_other /media/mtp";nautilus /media/mtp
-mtpfs /media/mtp&& nautilus /media/mtp
